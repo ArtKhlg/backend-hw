@@ -29,6 +29,15 @@ async function printNotes() {
   });
 }
 
+async function editNote(id, newTitle) {
+  const notes = await getNotes();
+  const editId = notes.findIndex((n) => n.id === id);
+  notes[editId].title = newTitle;
+  fs.writeFile(notesPath, JSON.stringify(notes));
+  notes.forEach((n) => {
+    console.log(chalk.blue(n.id + " " + n.title));
+  });
+}
 async function removeNotes(id) {
   const notes = await getNotes();
   const removeId = notes.findIndex((n) => n.id === id);
@@ -45,4 +54,6 @@ module.exports = {
   addNote,
   printNotes,
   removeNotes,
+  getNotes,
+  editNote,
 };
